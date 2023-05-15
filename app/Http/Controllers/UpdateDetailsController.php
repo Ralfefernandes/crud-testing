@@ -37,7 +37,11 @@ class UpdateDetailsController extends Controller
         // Retrieve the associated Bedrijven model
         $bedrijf = $contactPerson->bedrijven;
 
-        return view('update-details.edit', compact('contactPerson', 'bedrijf'));
+        // Get the column names from the Bedrijven model
+        $bedrijvenColumns = Bedrijven::first()->getFillable();
+        $adressenColumns = Adressen::first()->getFillable();
+
+        return view('update-details.edit', compact('contactPerson', 'bedrijf', 'bedrijvenColumns', 'adressenColumns'));
     }
 
     public function update(Request $request, $id)
@@ -74,11 +78,14 @@ class UpdateDetailsController extends Controller
     {
         // Fetch the contact person details...
         $contactPerson = Contactpersonen::find($id);
+        // get the header data from model, Dynamic form
+        $contactPersonColumns = Contactpersonen::first()->getFillable();
+
 
         if (!$contactPerson) {
             return redirect()->route('invalid-hash');
         }
-        return view('update-details.edit-form', compact('contactPerson'));
+        return view('update-details.edit-form', compact('contactPerson', 'contactPersonColumns'));
     }
     public function contactPersoon($id)
     {
@@ -86,15 +93,21 @@ class UpdateDetailsController extends Controller
 
         if (!$contactPerson) {
             return redirect()->route('invalid-hash');
+
         }
-        return view('update-details.success-contactpage', compact('contactPerson'));
+        // dynamic data for contact-success-contactpage
+        $contactPersonColumns = array_diff(Contactpersonen::first()->getFillable(), ['kvk']);
+
+        return view('update-details.success-contactpage', compact('contactPerson', 'contactPersonColumns'));
     }
 
 
     public function editBedrijven($id)
     {
         $bedrijf = Bedrijven::find($id);
-        return view('update-details.edit-bedrijven', compact('bedrijf'));
+        $bedrijvenColumns = Bedrijven::first()->getFillable();
+
+        return view('update-details.edit-bedrijven', compact('bedrijf', 'bedrijvenColumns'));
     }
 
     public function updateBedrijven(Request $request, $id)
@@ -139,9 +152,11 @@ class UpdateDetailsController extends Controller
     {
         $bedrijf = Bedrijven::find($id);
 
+        // Retrieve the attribute names of the Adres model
+        $adressenColumns = Adressen::first()->getFillable();
         $adres = $bedrijf->adressen;
 
-        return view('update-details.edit-adressen', compact('adres'));
+        return view('update-details.edit-adressen', compact('adres', 'adressenColumns'));
     }
         // Update Adressen
     public function updateAdressen(Request $request, $id)
@@ -172,8 +187,9 @@ class UpdateDetailsController extends Controller
         if (!$adres) {
             return redirect()->route('invalid-hash');
         }
+        $adresColumns = Adressen::first()->getFillable(); // Get the column names from the Adressen model
 
-        return view('update-details.success-page', compact('adres'));
+        return view('update-details.success-page', compact('adres', 'adresColumns'));
     }
 
     public function delete($token)

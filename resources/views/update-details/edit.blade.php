@@ -2,17 +2,14 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-12">
             <h1>Contact Person Details</h1>
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th scope="col">Voornaam</th>
-                    <th scope="col">Achternaam</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Telefoon</th>
-                    <th scope="col">Mobile</th>
-                    <th scope="col">Notities</th>
+                    @foreach (['voornaam', 'achternaam', 'email', 'telefoonnummer_vast', 'telefoonnummer_mobiel', 'notities'] as $attribute)
+                        <th scope="col">{{ ucfirst(str_replace('_', ' ', $attribute)) }}</th>
+                    @endforeach
                 </tr>
                 </thead>
                 <tbody>
@@ -43,10 +40,9 @@
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th scope="col">Bedrijfsnaam</th>
-                    <th scope="col">KvK-nummer</th>
-                    <th scope="col">BTW-nummer</th>
-                    <th scope="col">Land van vestiging</th>
+                    @foreach ($bedrijvenColumns as $column)
+                        <th scope="col">{{ ucfirst(str_replace('_', ' ', $column)) }}</th>
+                    @endforeach
                 </tr>
                 </thead>
                 <tbody>
@@ -72,13 +68,11 @@
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th scope="col">Beschrijving</th>
-                <th scope="col">Straatnaam</th>
-                <th scope="col">Huisnummer</th>
-                <th scope="col">Postcode</th>
-                <th scope="col">Plaatsnaam</th>
-                <th scope="col">Land</th>
-
+                @foreach ($adressenColumns as $column)
+                    @if ($column !== 'kvk')
+                        <th scope="col">{{ ucfirst(str_replace('_', ' ', $column)) }}</th>
+                    @endif
+                @endforeach
             </tr>
             </thead>
             <tbody>
