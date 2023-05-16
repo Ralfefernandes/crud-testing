@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('contactpersonen', function (Blueprint $table) {
             $table->id();
-            $table->string('geslacht');
-            $table->string('voornaam');
-            $table->string('achternaam');
-            $table->string('email')->unique();
-            $table->string('telefoonnummer_vast')->unique();
-            $table->string('telefoonnummer_mobiel')->unique();
+            $table->string('geslacht')->default(' ');
+            $table->string('voornaam')->default(' ');
+            $table->string('achternaam')->default(' ');
+            $table->string('email')->unique()->default('');
+            $table->string('telefoonnummer_vast')->unique()->default('');
+            $table->string('telefoonnummer_mobiel')->unique()->default('');
             $table->text('notities')->nullable();
             $table->string('kvk');
             $table->foreign('kvk')->references('kvk')->on('bedrijven'); // Add foreign key constraint
