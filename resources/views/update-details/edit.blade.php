@@ -2,13 +2,15 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-9">
             <h1>Contact Person Details</h1>
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    @foreach (['voornaam', 'achternaam', 'email', 'telefoonnummer_vast', 'telefoonnummer_mobiel', 'notities'] as $attribute)
-                        <th scope="col">{{ ucfirst(str_replace('_', ' ', $attribute)) }}</th>
+                    @foreach ($contactPerson->getAttributes() as $attribute => $value)
+                        @if (!in_array($attribute, ['kvk', 'geslacht','created_at', 'updated_at', 'token', 'id']))
+                            <th scope="col">{{ ucfirst(str_replace('_', ' ', $attribute)) }}</th>
+                        @endif
                     @endforeach
                 </tr>
                 </thead>
@@ -21,12 +23,8 @@
                         <td>{{ $contactPerson->telefoonnummer_mobiel }}</td>
                         <td>{{ $contactPerson->notities }}</td>
                         <td>
-                            <a href="{{ route('edit-details', $contactPerson->id) }}" class="btn btn-primary">Edit</a>
-                            <form action="{{ route('delete-details', $contactPerson->id) }}" method="POST" style="display: inline-block;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
+                            <a href="{{ route('edit-details/', $contactPerson->id) }}" class="btn btn-primary">Edit</a>
+
                         </td>
                     </tr>
                 </tbody>
@@ -53,11 +51,11 @@
                     <td>{{ $contactPerson->bedrijven->land_van_vestiging }}</td>
                     <td>
                         <a href="{{ route('edit-bedrijven', $contactPerson->bedrijven->id) }}" class="btn btn-primary">Edit</a>
-                        <form action="{{ route('delete-details', $contactPerson->bedrijven->id) }}" method="POST" style="display: inline-block;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
+{{--                        <form action="{{ route('delete-details', $contactPerson->bedrijven->id) }}" method="POST" style="display: inline-block;">--}}
+{{--                            @csrf--}}
+{{--                            @method('DELETE')--}}
+{{--                            <button type="submit" class="btn btn-danger">Delete</button>--}}
+{{--                        </form>--}}
                     </td>
                 </tr>
                 </tbody>
@@ -69,9 +67,7 @@
             <thead>
             <tr>
                 @foreach ($adressenColumns as $column)
-                    @if ($column !== 'kvk')
-                        <th scope="col">{{ ucfirst(str_replace('_', ' ', $column)) }}</th>
-                    @endif
+                    <th scope="col">{{ ucfirst(str_replace('_', ' ', $column)) }}</th>
                 @endforeach
             </tr>
             </thead>
