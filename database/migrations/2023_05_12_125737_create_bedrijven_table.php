@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('bedrijven', function (Blueprint $table) {
             $table->id();
-            $table->string('bedrijfsnaam');
-            $table->string('kvk')->unique(); // Make 'kvk' column unique
-            $table->string('btw')->unique(); // Make 'btw' column unique
-            $table->string('land_van_vestiging');
+            $table->string('bedrijfsnaam')->default('');
+            $table->string('kvk')->unique()->default(''); // Make 'kvk' column unique
+            $table->string('btw')->unique()->default(''); // Make 'btw' column unique
+            $table->string('land_van_vestiging')->default('');
             $table->timestamps();
         });
     }
