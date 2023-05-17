@@ -7,28 +7,23 @@
             <div class="col-md-3">
                 @foreach ($adressenColumns as $column)
                     <div class="form-group">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div>
+                        <div class="d-flex align-items-center">
+                            <form action="{{ route('update-adressen.update', ['id' => $adres->id]) }}" method="POST">
+                                @csrf
+                                @method('PUT')
                                 <label for="{{ $column }}" class="mr-2">{{ ucfirst(str_replace('_', ' ', $column)) }}</label>
-                                <form action="{{ route('update-adressen.update', ['id' => $adres->id]) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <input type="text" class="form-control d-inline-block" id="{{ $column }}" name="{{ $column }}" value="{{ $adres->$column }}" >
-                                </form>
-                            </div>
+                                <input type="hidden" name="column" value="{{ $column }}">
+                                <input type="text" class="form-control d-inline-block" id="{{ $column }}" name="{{ $column }}" value="{{ $adres->$column }}">
+                                <button type="submit" class="btn btn-primary ml-2">Update</button>
+                            </form>
                             <form action="{{ route('delete-adressen', ['id' => $adres->id, 'column' => $column]) }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                                <button type="submit" class="btn btn-danger ml-2">Delete</button>
                             </form>
                         </div>
                     </div>
                 @endforeach
-                <form action="{{ route('update-adressen.update', ['id' => $adres->id]) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </form>
             </div>
         </div>
     </div>
