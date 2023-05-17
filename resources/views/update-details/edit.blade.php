@@ -23,7 +23,7 @@
                         <td>{{ $contactPerson->telefoonnummer_mobiel }}</td>
                         <td>{{ $contactPerson->notities }}</td>
                         <td>
-                            <a href="{{ route('edit-details/', $contactPerson->id) }}" class="btn btn-primary">Edit</a>
+                            <a href="{{ route('edit-details', $contactPerson->id) }}" class="btn btn-primary">Edit</a>
 
                         </td>
                     </tr>
@@ -81,11 +81,6 @@
                 <td>{{ $contactPerson->bedrijven->adressen->land }}</td>
                 <td>
                     <a href="{{ route('edit-adressen', $contactPerson->bedrijven->adressen->id) }}" class="btn btn-primary">Edit</a>
-                    <form action="{{ route('delete-details', $contactPerson->id) }}" method="POST" style="display: inline-block;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
                 </td>
             </tr>
             </tbody>
