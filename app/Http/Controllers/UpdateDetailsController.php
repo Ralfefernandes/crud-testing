@@ -11,8 +11,6 @@ use League\Csv\CannotInsertRecord;
 use League\Csv\Exception;
 use League\Csv\UnavailableStream;
 use League\Csv\Writer;
-use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\Response;
 
 
 
@@ -125,15 +123,15 @@ class UpdateDetailsController extends Controller
         $field = key($input);
         $value = $input[$field];
 
-//        $validatedData = $request->validate([
-//            'bedrijfsnaam' => 'required',
-//            'kvk' => 'required',
-//            'btw' => 'required',
-//            // Add more validation rules for other fields
-//        ]);
-//
-//         // Update the bedrijf page details
-//        $bedrijf->update($validatedData);
+        $validatedData = $request->validate([
+            'bedrijfsnaam' => 'nullable',
+            'kvk' => 'nullable',
+            'btw' => 'nullable',
+            // Add more validation rules for other fields
+        ]);
+
+         // Update the bedrijf page details
+        $bedrijf->update($validatedData);
 
         // Update the specific field
         $bedrijf->$field = $value;
@@ -179,17 +177,17 @@ class UpdateDetailsController extends Controller
         if (!$adres) {
             return redirect()->route('invalid-hash');
         }
-//        $validatedData = $request->validate([
-//            'beschrijving' => 'string|max:255',
-//            'straatnaam' => 'string|max:255',
-//            'huisnummer' => 'string|max:255',
-//            'postcode' => 'string|max:255',
-//            'plaatsnaam' => 'string|max:255',
-//            'land' => 'string|max:255',
-//        ]);
-//
-//        // Update the adresgegevens page details
-//            $adres->update($validatedData);
+        $validatedData = $request->validate([
+            'beschrijving' => 'nullable',
+            'straatnaam' => 'nullable',
+            'huisnummer' => 'nullable',
+            'postcode' => 'string|max:255',
+            'plaatsnaam' => 'string|max:255',
+            'land' => 'string|max:255',
+        ]);
+
+        // Update the adresgegevens page details
+            $adres->update($validatedData);
         // Redirect to a success page or back to the listing page
 
         // Get the column to update from the request
