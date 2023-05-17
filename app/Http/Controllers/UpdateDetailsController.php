@@ -55,19 +55,19 @@ class UpdateDetailsController extends Controller
             return redirect()->route('invalid-hash');
         }
 
-        // Validate the form data
-        $validatedData = $request->validate([
-            'voornaam' => 'required',
-            'achternaam' => 'required',
-            'email' => 'required',
-            'telefoonnummer_vast' => 'required',
-            'telefoonnummer_mobiel' => 'required',
-            'notities' => 'required',
+// Validate the form data
+        $rules = [
+            'voornaam' => 'nullable',
+            'achternaam' => 'nullable',
+            'email' => 'nullable',
+            'telefoonnummer_vast' => 'nullable',
+            'telefoonnummer_mobiel' => 'nullable',
+            'notities' => 'nullable',
+        ];
 
-        ]);
+        $validatedData = $request->validate($rules);
 
-
-        // Update the contact person's details
+// Update the contact person's details
         $contactPerson->update($validatedData);
 
         // Redirect to a success page or display a success message
@@ -118,16 +118,16 @@ class UpdateDetailsController extends Controller
             return redirect()->route('invalid-hash');
         }
         $validatedData = $request->validate([
-            'bedrijfsnaam' => 'required',
-            'kvk' => 'required',
-            'btw' => 'required',
+//            'bedrijfsnaam' => 'required',
+//            'kvk' => 'required',
+//            'btw' => 'required',
             // Add more validation rules for other fields
         ]);
 
         // Update the bedrijf page details
         $bedrijf->update($validatedData);
 
-        // Redirect to a success page or display a success message
+        // Redirect to a success page or display a success messageupdate-details.updated-bedrijven
         return redirect()->route('show-updated-bedrijven', ['id' => $id]);
     }
 
@@ -144,8 +144,9 @@ class UpdateDetailsController extends Controller
         if (!$bedrijf) {
             return redirect()->route('invalid-hash');
         }
+        $bedrijvenColumns = Bedrijven::first()->getFillable();
 
-        return view('update-details.updated-bedrijven', compact('bedrijf'));
+        return view('update-details.updated-bedrijven', compact('bedrijf', 'bedrijvenColumns'));
     }
     // Edit Adressen
     public function editAdressen($id)
@@ -166,17 +167,17 @@ class UpdateDetailsController extends Controller
         if (!$adres) {
             return redirect()->route('invalid-hash');
         }
-        $validatedData = $request->validate([
-            'beschrijving' => 'required|string|max:255',
-            'straatnaam' => 'required|string|max:255',
-            'huisnummer' => 'required|string|max:255',
-            'postcode' => 'required|string|max:255',
-            'plaatsnaam' => 'required|string|max:255',
-            'land' => 'required|string|max:255',
-        ]);
-
-        // Update the adresgegevens page details
-            $adres->update($validatedData);
+//        $validatedData = $request->validate([
+//            'beschrijving' => 'string|max:255',
+//            'straatnaam' => 'string|max:255',
+//            'huisnummer' => 'string|max:255',
+//            'postcode' => 'string|max:255',
+//            'plaatsnaam' => 'string|max:255',
+//            'land' => 'string|max:255',
+//        ]);
+//
+//        // Update the adresgegevens page details
+//            $adres->update($validatedData);
         // Redirect to a success page or back to the listing page
         return redirect()->route('show-updated-adressen',  ['id' => $id]);
     }
@@ -192,25 +193,7 @@ class UpdateDetailsController extends Controller
         return view('update-details.success-page', compact('adres', 'adresColumns'));
     }
 
-    public function delete($token)
-    {
-        // Decode the token to retrieve the contact person's ID
-        $id = base64_decode($token);
 
-        // Find the contact person based on the ID
-        $contactPerson = Contactpersonen::find($id);
-
-        // Check if contact person exists
-        if (!$contactPerson) {
-            return redirect()->route('invalid-hash');
-        }
-
-        // Delete the contact person
-        $contactPerson->delete();
-
-        // Redirect or show a success message
-        return redirect()->route('details-deleted');
-    }
     public function showInvalidHash()
     {
         return view('update-details.invalid-hash');
@@ -322,4 +305,77 @@ class UpdateDetailsController extends Controller
 
         return response()->download(storage_path('app/' . $filename), $filename, $headers);
     }
+    public function deleteColumn($id, $column)
+    {
+        // Find the contact person based on the ID
+        $contactPerson = Contactpersonen::find($id);
+
+        // Check if contact person exists
+        if (!$contactPerson) {
+            return redirect()->route('invalid-hash');
+        }
+
+        // Set the specified column to null
+        $contactPerson->$column = null;
+        $contactPerson->save();
+
+        // Redirect or show a success message
+        return redirect()->back()->with('success', 'Column deleted successfully.');
+    }
+
+    public function delete($id)
+    {
+        // Find the contact person based on the ID
+        $contactPerson = Contactpersonen::find($id);
+
+        // Check if contact person exists
+        if (!$contactPerson) {
+            return redirect()->route('invalid-hash');
+        }
+
+        // Delete the contact person
+        $contactPerson->delete();
+
+        // Redirect or show a success message
+        return redirect()->route('details-deleted',  ['id' => $id]);
+    }
+
+    public function deleteAdressen($id, $column)
+    {
+        $adres = Adressen::find($id);
+
+        // Check if adres exists
+        if (!$adres) {
+            return redirect()->route('invalid-hash');
+        }
+
+        // Check if the column exists
+        if (!isset($adres->$column)) {
+            return redirect()->route('invalid-column');
+        }
+
+        // Clear the value of the column
+        $adres->$column = null;
+        $adres->save();
+
+        // Return a success response
+        return redirect()->route('edit-adressen', ['id' => $id]);
+    }
+    public function deleteBedrijven($id, $column)
+    {
+        $bedrijf = Bedrijven::find($id);
+
+        // Check if bedrijf exists
+        if (!$bedrijf) {
+            return redirect()->route('invalid-hash');
+        }
+
+        // Nullify the column
+        $bedrijf->$column = null;
+        $bedrijf->save();
+
+        // Return a success response
+        return redirect()->route('edit-bedrijven', ['id' => $id]);
+    }
+
 }
