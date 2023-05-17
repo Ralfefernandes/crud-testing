@@ -67,7 +67,9 @@
             <thead>
             <tr>
                 @foreach ($adressenColumns as $column)
-                    <th scope="col">{{ ucfirst(str_replace('_', ' ', $column)) }}</th>
+                    @if ($column != 'kvk')
+                        <th scope="col">{{ ucfirst(str_replace('_', ' ', $column)) }}</th>
+                    @endif
                 @endforeach
             </tr>
             </thead>
