@@ -34,15 +34,11 @@ Route::get('/bedrijven/{id}', [UpdateDetailsController::class, 'showUpdatedBedri
 Route::get('/adressen/{id}', [UpdateDetailsController::class, 'showUpdatedAdressen'])->name('show-updated-adressen');
 Route::get('/edit-adressen/{id}', [UpdateDetailsController::class, 'editAdressen'])->name('edit-adressen');
 Route::put('/update-adressen/{id}', [UpdateDetailsController::class, 'updateAdressen'])->name('update-adressen.update');
-Route::delete('/delete-adressen/{id}/{column}', [UpdateDetailsController::class, 'deleteAdressen'])->name('delete-adressen');
+Route::DELETE('/delete-adressen/{id}', [UpdateDetailsController::class, 'deleteAdressen'])->name('delete-adressen');
 
 // Delete details
 Route::post('/delete-details/{id}', [UpdateDetailsController::class, 'delete'])->name('delete-details');
 Route::delete('/delete-column/{id}/{column}', [UpdateDetailsController::class, 'deleteColumn'])->name('delete-column');
-
-// Delete bedrijven field
-Route::delete('/delete-bedrijven/{id}/{column}', [UpdateDetailsController::class, 'deleteBedrijven'])->name('delete-bedrijven');
-
 
 // Download csv files from adressen
 Route::get('/download-updated-addresses', [UpdateDetailsController::class, 'downloadUpdatedAddresses'])->name('download-updated-addresses');
