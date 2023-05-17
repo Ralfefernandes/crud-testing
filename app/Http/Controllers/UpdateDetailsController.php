@@ -117,15 +117,27 @@ class UpdateDetailsController extends Controller
         if (!$bedrijf) {
             return redirect()->route('invalid-hash');
         }
-        $validatedData = $request->validate([
+        // Get all request data except the _token and _method
+        $input = $request->except('_token', '_method');
+
+
+        // Get the field and value
+        $field = key($input);
+        $value = $input[$field];
+
+//        $validatedData = $request->validate([
 //            'bedrijfsnaam' => 'required',
 //            'kvk' => 'required',
 //            'btw' => 'required',
-            // Add more validation rules for other fields
-        ]);
+//            // Add more validation rules for other fields
+//        ]);
+//
+//         // Update the bedrijf page details
+//        $bedrijf->update($validatedData);
 
-        // Update the bedrijf page details
-        $bedrijf->update($validatedData);
+        // Update the specific field
+        $bedrijf->$field = $value;
+        $bedrijf->save();
 
         // Redirect to a success page or display a success messageupdate-details.updated-bedrijven
         return redirect()->route('show-updated-bedrijven', ['id' => $id]);
@@ -179,6 +191,17 @@ class UpdateDetailsController extends Controller
 //        // Update the adresgegevens page details
 //            $adres->update($validatedData);
         // Redirect to a success page or back to the listing page
+
+        // Get the column to update from the request
+        $column = $request->get('column');
+
+        // Validate the new value
+        $validatedData = $request->validate([
+            $column => 'string|max:255',
+        ]);
+        // Update only the specified column
+        $adres->$column = $validatedData[$column];
+        $adres->save();
         return redirect()->route('show-updated-adressen',  ['id' => $id]);
     }
     public function showUpdatedAdressen($id)

@@ -6,13 +6,14 @@
             <h1>Edit Bedrijven Details</h1>
             @foreach ($bedrijvenColumns as $column)
                 <div class="form-group">
-                    <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
                         <div>
                             <label for="{{ $column }}" class="mr-2">{{ ucfirst(str_replace('_', ' ', $column)) }}</label>
                             <form action="{{ route('update-bedrijven.update', ['id' => $bedrijf->id]) }}" method="POST">
                                 @csrf
                                 @method('PUT')
-                                <input type="text" class="form-control d-inline-block" id="{{ $column }}" name="{{ $column }}" value="{{ $bedrijf->$column }}">
+                                <input type="text" class="form-control d-inline-block" id="{{ $column }}" name="{{ $column }}" value="{{ $bedrijf->$column }}" required>
+                                <button type="submit" class="btn btn-primary">Update</button>
                             </form>
                         </div>
                         <form action="{{ route('delete-bedrijven', ['id' => $bedrijf->id, 'column' => $column]) }}" method="POST" style="display: inline;">
@@ -23,11 +24,6 @@
                     </div>
                 </div>
             @endforeach
-            <form action="{{ route('update-bedrijven.update', ['id' => $bedrijf->id]) }}" method="POST">
-                @csrf
-                @method('PUT')
-                <button type="submit" class="btn btn-primary">Update</button>
-            </form>
         </div>
     </div>
 </div>
