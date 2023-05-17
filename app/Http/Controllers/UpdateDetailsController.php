@@ -11,6 +11,8 @@ use League\Csv\CannotInsertRecord;
 use League\Csv\Exception;
 use League\Csv\UnavailableStream;
 use League\Csv\Writer;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\Response;
 
 
 
@@ -115,27 +117,15 @@ class UpdateDetailsController extends Controller
         if (!$bedrijf) {
             return redirect()->route('invalid-hash');
         }
-        // Get all request data except the _token and _method
-        $input = $request->except('_token', '_method');
-
-
-        // Get the field and value
-        $field = key($input);
-        $value = $input[$field];
-
         $validatedData = $request->validate([
-            'bedrijfsnaam' => 'nullable',
-            'kvk' => 'nullable',
-            'btw' => 'nullable',
+            'bedrijfsnaam' => 'required',
+            'kvk' => 'required',
+            'btw' => 'required',
             // Add more validation rules for other fields
         ]);
 
-         // Update the bedrijf page details
+        // Update the bedrijf page details
         $bedrijf->update($validatedData);
-
-        // Update the specific field
-        $bedrijf->$field = $value;
-        $bedrijf->save();
 
         // Redirect to a success page or display a success messageupdate-details.updated-bedrijven
         return redirect()->route('show-updated-bedrijven', ['id' => $id]);
@@ -178,9 +168,9 @@ class UpdateDetailsController extends Controller
             return redirect()->route('invalid-hash');
         }
         $validatedData = $request->validate([
-            'beschrijving' => 'nullable',
-            'straatnaam' => 'nullable',
-            'huisnummer' => 'nullable',
+            'beschrijving' => 'string|max:255',
+            'straatnaam' => 'string|max:255',
+            'huisnummer' => 'string|max:255',
             'postcode' => 'string|max:255',
             'plaatsnaam' => 'string|max:255',
             'land' => 'string|max:255',
@@ -189,17 +179,6 @@ class UpdateDetailsController extends Controller
         // Update the adresgegevens page details
             $adres->update($validatedData);
         // Redirect to a success page or back to the listing page
-
-        // Get the column to update from the request
-        $column = $request->get('column');
-
-        // Validate the new value
-        $validatedData = $request->validate([
-            $column => 'string|max:255',
-        ]);
-        // Update only the specified column
-        $adres->$column = $validatedData[$column];
-        $adres->save();
         return redirect()->route('show-updated-adressen',  ['id' => $id]);
     }
     public function showUpdatedAdressen($id)
@@ -361,42 +340,20 @@ class UpdateDetailsController extends Controller
         return redirect()->route('details-deleted',  ['id' => $id]);
     }
 
-    public function deleteAdressen($id, $column)
+    public function deleteAdressen($id)
     {
         $adres = Adressen::find($id);
+
 
         // Check if adres exists
         if (!$adres) {
             return redirect()->route('invalid-hash');
         }
-
-        // Check if the column exists
-        if (!isset($adres->$column)) {
-            return redirect()->route('invalid-column');
-        }
-
-        // Clear the value of the column
-        $adres->$column = null;
-        $adres->save();
+        $adres->delete();
 
         // Return a success response
-        return redirect()->route('edit-adressen', ['id' => $id]);
+        return response()->json(['message' => 'Field deleted successfully']);
     }
-    public function deleteBedrijven($id, $column)
-    {
-        $bedrijf = Bedrijven::find($id);
 
-        // Check if bedrijf exists
-        if (!$bedrijf) {
-            return redirect()->route('invalid-hash');
-        }
-
-        // Nullify the column
-        $bedrijf->$column = null;
-        $bedrijf->save();
-
-        // Return a success response
-        return redirect()->route('edit-bedrijven', ['id' => $id]);
-    }
 
 }
