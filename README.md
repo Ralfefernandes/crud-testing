@@ -1,11 +1,13 @@
 # themindoffice
 Assesment
 
-
 ## step 1 Database Details
+You need to run ```bash
+composer update ```
+## step 2 Database Details
 The database details can be found in the .env file. Make sure to set the following values accordingly:
 
-## Step 2: Uploading CSV files
+## Step 3: Uploading CSV files
 
 To upload new CSV files, you can use the following commands:
 here are the details:
@@ -51,7 +53,7 @@ Console/Commands/ImportBedrijvenCsvData.php
 Console/Commands/ImportContactpersonenCsvData.php
 ```
 
-## Step 3: Sending update details emails
+## Step 4: Sending update details emails
 
 To send an email to everyone, you can use the following command:
 
@@ -66,13 +68,13 @@ Console/Commands/SendUpdateDetailsEmails.php
 Mail/UpdateDetailsEmail.php
 ```
 
-## Step 3: Model and relationship logic
+## Step 5: Model and relationship logic
 The Models directory contains the logic and relationships between the tables.
 
-## Step 4: UpdateDetailsController
+## Step 6: UpdateDetailsController
 The main controller for this project is ```bash UpdateDetailsController.php ```, located in the ```bash Http/Controllers ``` directory. This controller contains the code for handling various actions and requests related to updating details.
 
-## Step 5: ModelChangeObserver
+## Step 7: ModelChangeObserver
 To track model changes and save them to the log file, you can find the code in the following file:
 - ```bash app/Observers/ModelChangeObserver.php```
 The ModelChangeObserver class contains the logic for logging model changes to the ```bash model_changes.log``` file located in ```bash storage/logs/model_changes.log```.
