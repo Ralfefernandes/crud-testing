@@ -1,9 +1,9 @@
 # themindoffice
 Assesment
 
-## step 1 Composer Update
+## step 1 Composer install
 You need to run ```
-composer update ```
+composer install ```
 ## step 2 Database Details
 The database details can be found in the .env file. Make sure to set the following values accordingly:
 
