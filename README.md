@@ -1,7 +1,7 @@
 # themindoffice
 Assesment
 
-## step 1 Run composer update
+## step 1 Composer Update
 You need to run ```
 composer update ```
 ## step 2 Database Details
@@ -57,7 +57,7 @@ Console/Commands/ImportContactpersonenCsvData.php
 
 To send an email to everyone, you can use the following command:
 
-```bash 
+``` 
 php artisan send:update-details-emails
 ```
 
