@@ -63,7 +63,7 @@ php artisan send:update-details-emails
 
 The code for sending the update details emails can be found in the following files:
 
-```bash
+```
 Console/Commands/SendUpdateDetailsEmails.php
 Mail/UpdateDetailsEmail.php
 ```
@@ -72,9 +72,9 @@ Mail/UpdateDetailsEmail.php
 The Models directory contains the logic and relationships between the tables.
 
 ## Step 6: UpdateDetailsController
-The main controller for this project is ```bash UpdateDetailsController.php ```, located in the ```bash Http/Controllers ``` directory. This controller contains the code for handling various actions and requests related to updating details.
+The main controller for this project is ``` UpdateDetailsController.php ```, located in the ``` Http/Controllers ``` directory. This controller contains the code for handling various actions and requests related to updating details.
 
 ## Step 7: ModelChangeObserver
 To track model changes and save them to the log file, you can find the code in the following file:
 - ```bash app/Observers/ModelChangeObserver.php```
-The ModelChangeObserver class contains the logic for logging model changes to the ```bash model_changes.log``` file located in ```bash storage/logs/model_changes.log```.
+The ModelChangeObserver class contains the logic for logging model changes to the ``` model_changes.log``` file located in ``` storage/logs/model_changes.log```.
