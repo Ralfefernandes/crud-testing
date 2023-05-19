@@ -76,5 +76,5 @@ The main controller for this project is ``` UpdateDetailsController.php ```, loc
 
 ## Step 7: ModelChangeObserver
 To track model changes and save them to the log file, you can find the code in the following file:
-- ```bash app/Observers/ModelChangeObserver.php```
+- ``` app/Observers/ModelChangeObserver.php```
 The ModelChangeObserver class contains the logic for logging model changes to the ``` model_changes.log``` file located in ``` storage/logs/model_changes.log```.
