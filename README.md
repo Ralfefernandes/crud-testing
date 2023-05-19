@@ -1,8 +1,8 @@
 # themindoffice
 Assesment
 
-## step 1 Database Details
-You need to run ```bash
+## step 1 Run composer update
+You need to run ```
 composer update ```
 ## step 2 Database Details
 The database details can be found in the .env file. Make sure to set the following values accordingly:
