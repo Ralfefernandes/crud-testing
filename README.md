@@ -15,25 +15,25 @@ here are the details:
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=themindoffice
-DB_USERNAME=themindoffice
-DB_PASSWORD=Amaral_10
+DB_DATABASE=
+DB_USERNAME=
+DB_PASSWORD=
 ```
 ## Email Details
 ```bash
 MAIL_MAILER=smtp
 MAIL_HOST=app.debugmail.io
 MAIL_PORT=9025
-MAIL_USERNAME=4c73c0fd-c261-4c7b-8b75-78790ad6088e
-MAIL_PASSWORD=c62be056-f303-4034-aae6-4597cc833b00
+MAIL_USERNAME=
+MAIL_PASSWORD=
 MAIL_ENCRYPTION=tls
 ```
 ## Login on the https://app.debugmail.io/
 
 To see the fake emails, you can login on this server:
 - Server URL: https://app.debugmail.io/
-- Username: Ralfefernandes@hotmail.com
-- Password: Amaral_10
+- Username: Ralfefrns@hotmail.com
+- Password: 
 
 ```bash
 php artisan import:bedrijven-csv-data
